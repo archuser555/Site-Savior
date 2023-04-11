@@ -1,0 +1,16 @@
+# here you can configure your Site Savior :D
+
+# Set this to true when in production to disable debug information and use a public IP
+production = false
+
+# The access key required to interact with the server. Keep this secret and don't share it with anyone.
+# + im changing it, don't think you are a genius or something, my potato are secure rn
+access_key = "BananasAreScary"
+
+# The name you will see from your phone when access the server
+device_name = "AnassHAHA"
+
+# Description for the device, i have 2 servers so, i wanna know what site im hosting!
+description = "hosting the ramanujan project"
+
+# TODO, add an option to add custom domain i guess, that's it
