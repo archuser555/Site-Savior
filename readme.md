@@ -1,4 +1,5 @@
 # German SS Beta 0.1v :)
+### not gonna do any impovments any soon :)
 just kidding, well this is just a small tool i've made to control my linux server with my phone, so i don't need to access my computer, it's secure of course, i won't make something insecure, that's my 1# rule in life, jk anyways i host a website in my personal computer, if you are serious about security, check the codebase, you can access the app from phone via your ip, and maybe gonna add an option to setup domain later? here is some of it's features:
 
 - work anywhere in the world *i guess*
