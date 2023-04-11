@@ -183,6 +183,7 @@ pub fn dashboard() -> String {
             margin: 20px;
             transition: all 0.3s ease-in-out;
             cursor: pointer;
+            align: center;
           }
           
           .box:hover {
@@ -236,7 +237,7 @@ pub fn dashboard() -> String {
             background-color: #3e8e41;
           }
 
-          .ddesc {
+          #ddesc {
             font-size: 24px;
             color: #999;
             text-align: center;
@@ -257,8 +258,8 @@ pub fn dashboard() -> String {
       </head>
       
       <body>
-        <h1 class='dname'>Dashboard</h1>
-        <p class='ddesc'>It's all what you need!</p>
+        <h1 id='dname'>Dashboard</h1>
+        <p id='ddesc'>It's all what you need!</p>
         
         <div id='dashboard'>
           <div class='box' id='ram'>Box 1</div>
@@ -283,7 +284,21 @@ pub fn dashboard() -> String {
             .split('; ')
             .find(row => row.startsWith('access='))
             ?.split('=')[1];
-
+        
+        window.addEventListener('DOMContentLoaded', (event) => {
+          fetch(`http://127.0.0.1:8000/api/info?token=${cookieValue}`)
+          .then(response => response.json())
+          .then(data => {
+            document.getElementById('dname').textContent = data.name;
+            document.getElementById('ddesc').textContent = data.desc;
+            document.getElementById('ram').textContent = 'Ram:'+data.ram;
+            document.getElementById('disk_uage').textContent = 'Disk:'+data.disk;
+            document.getElementById('cpu_freq').textContent = 'Cpu Freq:'+data.cpu;
+            document.getElementById('uptime').textContent = 'Uptime:'+data.uptime;
+          })
+          .catch(error => console.log(error));
+        });
+        
         form.addEventListener('submit', (event) => {
           event.preventDefault();
         
@@ -309,6 +324,6 @@ pub fn dashboard() -> String {
               console.error('Error fetching data from API:', error);
               message.textContent = 'Error fetching data from API';
             });
-        });        
+        });              
         </script>".to_string()
 }

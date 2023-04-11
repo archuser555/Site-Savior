@@ -6,13 +6,14 @@ extern crate rocket;
 use rocket::response::content;
 use rocket::http::CookieJar;
 use std::process::Command;
-//use std::collections::HashMap;
-//use serde_json::{json, Value};
+use std::collections::HashMap;
+use serde_json::{json, Value};
 use crate::conf::{ACCESS_KEY, DEVICE_NAME, DESCRIPTION, PRODUCTION};
 use sha256::digest;
+
 mod conf;
 mod client;
-
+mod sysinfo;
 
 fn token_check(token: &str) -> bool{
     let access_key = &ACCESS_KEY.read().unwrap() as &str;
@@ -59,18 +60,14 @@ fn commands(token: &str, cmd: Option<String>) -> String {
 #[get("/?<token>")]
 fn info(token: &str) -> String {
     if token_check(token) {
-        // TODO
-        /*let disk = disk_info().unwrap();
-        let mem = mem_info().unwrap();
-        let load = loadavg().unwrap();    
         let mut info: HashMap<&str, String> = HashMap::new();
         info.insert("name", DEVICE_NAME.read().unwrap().to_string());
         info.insert("desc", DESCRIPTION.read().unwrap().to_string());
-        info.insert("disk", format!("{} GB available", disk.free / 1000 / 1000));
-        info.insert("ram", format!("{} GB used of {}", mem.total - mem.free, mem.total));
-        info.insert("uptime", format!("{}", load.one));
-        return serde_json::to_string(&info).unwrap();*/
-        "help me get sys info :)".to_string()
+        info.insert("disk", format!("{}", sysinfo::disk_info()));
+        info.insert("ram", format!("{} GB used of {} GB", sysinfo::mem_info().0, sysinfo::mem_info().1));
+        info.insert("uptime", format!("{}", sysinfo::uptime()));
+        info.insert("cpu", format!("{}", sysinfo::cpu_info()));
+        return serde_json::to_string(&info).unwrap();
     }
     else {
         return "Invalid token".to_string();
